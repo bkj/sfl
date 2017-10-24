@@ -6,22 +6,24 @@
 
 from __future__ import print_function
 
+import matplotlib
+matplotlib.use('Agg')
+from matplotlib import pyplot as plt
+
 import sys
 import argparse
 import numpy as np
 import pandas as pd
-from time import time
 
 from supervx import SuperVX, SuperGraph
-
-import matplotlib
-matplotlib.use('Agg')
-from matplotlib import pyplot as plt
 
 # --
 # Helpers
 
 def filter_time(nodes, edges, coords, min_hour, max_hour):
+    """
+        Sometimes we want to run on only a subset of times
+    """
     hrs = map(str, range(min_hour, max_hour + 1))
     
     # Edges in time period (pickup and dropoff)
@@ -37,15 +39,19 @@ def filter_time(nodes, edges, coords, min_hour, max_hour):
     
     return nodes, edges, coords
 
+
 def make_edges_sequential(nodes, edges):
+    """
+        SnapVX requires/prefers nodes to have sequential IDs, w/o any gaps
+    """
     node_lookup = pd.Series(np.arange(nodes.shape[0]), index=nodes['index'])
     
-    # Sequential IDs in edges
     edges = np.vstack([
         np.array(node_lookup.loc[edges.src]), 
         np.array(node_lookup.loc[edges.trg]),
     ]).T
-    # Order + dedup
+    
+    # Order edges + remove duplicates
     sel = edges[:,0] >= edges[:,1]
     edges[sel] = edges[sel,::-1]
     edges = np.vstack(set(map(tuple, edges)))
@@ -81,7 +87,7 @@ if __name__ == "__main__":
     coords = np.load(args.coord_path)
 
     # --
-    # Possibly subset by time
+    # Subset by time (maybe)
     
     if args.time_window:
         print('filter time', file=sys.stderr)
@@ -89,14 +95,14 @@ if __name__ == "__main__":
         nodes, edges, coords = filter_time(nodes, edges, coords, min_hour, max_hour)
     
     # --
-    # Sequential IDs
+    # Convert IDs to sequential ints
     
     print('sequential ids', file=sys.stderr)
     sequential_edges = make_edges_sequential(nodes, edges)
     targets = np.array(nodes.difference)
     
     # --
-    # Run
+    # Run sparse fused lasso
     
     partition = None if args.use_admm else np.ones(nodes.shape[0]).astype(int)
     supergraph = SuperGraph(sequential_edges, targets, partition=partition)
@@ -117,8 +123,8 @@ if __name__ == "__main__":
     print('done', file=sys.stderr)
     
     # --
-    # Plot results
-
+    # Plot results (maybe)
+    
     if args.savefig:
         print('plotting', file=sys.stderr)
         max_col = np.sqrt(np.abs(fitted)).max()
