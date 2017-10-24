@@ -70,7 +70,7 @@ class SuperGraph(object):
             print("SuperGraph: computing partition", file=sys.stderr)
             partition = community_louvain.best_partition(G)
             partition = np.array([p[1] for p in sorted(partition.items(), key=lambda x: x[0])])
-            print("    took %fs" % (time() - t))
+            print("    took %fs" % (time() - t), file=sys.stderr)
         
         self.lookup, self.supernodes = self._make_supernodes(feats, partition)
         self.superedges = self._make_superedges(G, partition, self.lookup)

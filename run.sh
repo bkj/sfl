@@ -21,3 +21,17 @@ python create-graph.py
 
 # --
 # Run sparse fused lasso
+# (Plots are saved to `results.png`)
+
+# Simplest example
+python sfl.py --savefig
+
+# Run w/ ADMM on a small dataset
+python sfl.py --savefig --use-admm
+
+# Run w/ ADMM on datasets of increasing (temporal) size
+python sfl.py --savefig --use-admm --time-window 8,16
+python sfl.py --savefig --use-admm --time-window 4,20
+
+# Run w/ ADMM on entire dataset
+python sfl.py --savefig --use-admm --time-window 0,24
