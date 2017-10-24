@@ -1,3 +1,15 @@
+#!/usr/bin/env python
+
+"""
+    snapvx.py
+    
+    Simplified/"more pythonic" version of https://github.com/snap-stanford/snapvx/
+    
+    Most notable change is using dictionaries instead of arrays for inter-process
+    communication.  On a subset of the NYC taxi data, making this modification
+    gave a ~40% speedup.
+"""
+
 # Copyright (c) 2015, Stanford University. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without

@@ -29,9 +29,8 @@ python sfl.py --savefig
 # Run w/ ADMM on a small dataset
 python sfl.py --savefig --use-admm
 
-# Run w/ ADMM on datasets of increasing (temporal) size
-python sfl.py --savefig --use-admm --time-window 8,16
-python sfl.py --savefig --use-admm --time-window 4,20
+# Run w/ ADMM on a bigger dataet
+python sfl.py --savefig --use-admm --time-window 8,16 # ~3 minutes on 32 cores
 
 # Run w/ ADMM on entire dataset
-python sfl.py --savefig --use-admm --time-window 0,24
+python sfl.py --savefig --use-admm --time-window 0,24 # ~10 minutes on 32 cores

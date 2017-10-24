@@ -2,6 +2,12 @@
 
 """
     supervx.py
+    
+    Classes for preprocessing a problem before passing to SnapVX
+    
+    SnapVX has a "useClustering" option, but it doesn't vectorize the variables like we do here
+    Using this wrapper instead of "out of the box" SnapVX on the taxi problem gives you a
+    15-20x speedup.
 """
 
 from __future__ import print_function
