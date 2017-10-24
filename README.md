@@ -5,14 +5,11 @@ Effort to reproduce and expand upon the NYC Taxi experiment in [Trend Filtering 
 
 #### Dependencies
 
-Install `snap.py` per https://snap.stanford.edu/snappy/
+1) Install `snap.py` per https://snap.stanford.edu/snappy/
 
-Then 
-```
-pip install -r requirements.txt
-```
+2) `pip install -r requirements.txt`
 
-If you want to be able to pull your own street networks, you'll also have to install [osmnx](https://github.com/gboeing/osmnx), which was sortof painful on my machine.
+3) (Optional) If you want to be able to pull your own street networks, you'll also have to install [osmnx](https://github.com/gboeing/osmnx), which was sortof painful on my machine.
 
 #### Usage
 
