@@ -6,11 +6,16 @@
 
 from __future__ import print_function
 
-import matplotlib
-matplotlib.use('Agg')
-from matplotlib import pyplot as plt
-
 import sys
+try:
+    import matplotlib
+    matplotlib.use('Agg')
+    from matplotlib import pyplot as plt
+    has_matplotlib = True
+except:
+    print("no matplotlib -- won't plot", file=sys.stderr)
+    has_matplotlib = False
+
 import argparse
 import numpy as np
 import pandas as pd
@@ -125,7 +130,7 @@ if __name__ == "__main__":
     # --
     # Plot results (maybe)
     
-    if args.savefig:
+    if args.savefig and has_matplotlib:
         print('plotting', file=sys.stderr)
         max_col = np.sqrt(np.abs(fitted)).max()
         hours = np.array(nodes['index'].apply(lambda x: x.split('-')[1])).astype('int')
